@@ -1,6 +1,6 @@
 use crate::config::ModuleConfig;
-use starship_module_config_derive::ModuleConfig;
 use serde::Serialize;
+use starship_module_config_derive::ModuleConfig;
 
 #[derive(Clone, ModuleConfig, Serialize)]
 pub struct AzureConfig<'a> {

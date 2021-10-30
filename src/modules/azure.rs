@@ -21,16 +21,16 @@ pub fn module<'a>(context: &'a Context) -> Option<Module<'a>> {
     let parsed = StringFormatter::new(config.format).and_then(|formatter| {
         formatter
             .map_meta(|variable, _| match variable {
-              "symbol" => Some(config.symbol),
-              _ => None,
+                "symbol" => Some(config.symbol),
+                _ => None,
             })
             .map_style(|variable| match variable {
                 "style" => Some(Ok(config.style)),
                 _ => None,
             })
             .map(|variable| match variable {
-              "subscription" => Some(Ok(subscription_name.to_string())),
-              _ => None,
+                "subscription" => Some(Ok(subscription_name.to_string())),
+                _ => None,
             })
             .parse(None)
     });
@@ -58,7 +58,6 @@ fn get_azure_config_file_location(context: &Context) -> Option<PathBuf> {
 }
 
 fn get_azure_subscription_name(context: &Context) -> Option<String> {
-
     let mut azure_profile_json = get_azure_config_file_location(context)?;
     azure_profile_json.push("azureProfile.json");
 
@@ -89,7 +88,6 @@ fn get_azure_subscription_name(context: &Context) -> Option<String> {
     subscriptions
         .iter()
         .find_map(|s| find_subscription(s, current_subscription_id))
-
 }
 
 fn find_subscription(subscription: &JValue, current_subscription_id: &str) -> Option<String> {
