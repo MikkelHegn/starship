@@ -112,20 +112,18 @@ mod tests {
         dir: &TempDir,
         cloud_config_contents: &str,
         azure_profile_contents: &str,
-    ) {
+    ) -> io::Result<()> {
         let clouds_config_path = dir.path().join("clouds.config");
-        let mut clouds_config_file = File::create(&clouds_config_path).unwrap();
-
-        clouds_config_file
-            .write_all(cloud_config_contents.as_bytes())
-            .unwrap();
+        let mut clouds_config_file = File::create(&clouds_config_path)?;
+        clouds_config_file.write_all(cloud_config_contents.as_bytes())?;
+        clouds_config_file.sync_all()?;
 
         let azure_profile_path = dir.path().join("azureProfile.json");
-        let mut azure_profile_file = File::create(&azure_profile_path).unwrap();
+        let mut azure_profile_file = File::create(&azure_profile_path)?;
+        azure_profile_file.write_all(azure_profile_contents.as_bytes())?;
 
-        azure_profile_file
-            .write_all(azure_profile_contents.as_bytes())
-            .unwrap()
+        azure_profile_file.sync_all()?;
+        Ok(())
     }
 
     #[test]
@@ -185,7 +183,7 @@ subscription = f3935dc9-92b5-9a93-da7b-42c325d86939
   }
 "#;
 
-        generate_test_config(&dir, cloud_config_contents, azure_profile_contents);
+        generate_test_config(&dir, cloud_config_contents, azure_profile_contents)?;
         let dir_path = &dir.path().to_string_lossy();
         let actual = ModuleRenderer::new("azure")
             .env("AZURE_CONFIG_DIR", dir_path.as_ref())
@@ -255,7 +253,7 @@ subscription = f3935dc9-92b5-9a93-da7b-42c325d86940
   }
 "#;
 
-        generate_test_config(&dir, cloud_config_contents, azure_profile_contents);
+        generate_test_config(&dir, cloud_config_contents, azure_profile_contents)?;
         let dir_path = &dir.path().to_string_lossy();
         let actual = ModuleRenderer::new("azure")
             .env("AZURE_CONFIG_DIR", dir_path.as_ref())
@@ -279,7 +277,7 @@ subscription = f3935dc9-92b5-9a93-da7b-42c325d86940
   }
 "#;
 
-        generate_test_config(&dir, cloud_config_contents, azure_profile_contents);
+        generate_test_config(&dir, cloud_config_contents, azure_profile_contents)?;
         let dir_path = &dir.path().to_string_lossy();
         let actual = ModuleRenderer::new("azure")
             .env("AZURE_CONFIG_DIR", dir_path.as_ref())
