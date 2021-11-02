@@ -16,8 +16,6 @@ pub fn module<'a>(context: &'a Context) -> Option<Module<'a>> {
 
     let subscription_name = get_azure_subscription_name(context)?;
 
-    //let subscription_name = "Howdy subscription!";
-
     let parsed = StringFormatter::new(config.format).and_then(|formatter| {
         formatter
             .map_meta(|variable, _| match variable {
