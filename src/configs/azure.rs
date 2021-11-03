@@ -16,7 +16,7 @@ impl<'a> Default for AzureConfig<'a> {
             format: "on [$symbol($subscription)]($style) ",
             symbol: "ﴃ ",
             style: "blue bold",
-            disabled: false,
+            disabled: true,
         }
     }
 }
